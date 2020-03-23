@@ -1,0 +1,91 @@
+<html lang="en"><head><script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+
+
+
+ <meta charset="UTF-8">
+ <title>考试</title>
+</head>
+<body style="
+    color:#fff;
+             background-color:#333;
+              text-align:center;
+font-family:Time Is;
+             ">
+<center style="line-height: 150px;"><h1 class="titler" style="font-size: 140px; font-family: 刻石录颜体; margin-top: 100px;">考 試 結 束</h1>
+<h1 class="active_time" id="active_time" style="
+    font-size: 125;
+"></h1></center>
+
+<script>
+
+
+
+(function($)
+{
+    $.extend(
+    {
+//       
+//          url get parameters
+//          public
+//         return array()
+//      
+        urlGet:function()
+        {
+            var aQuery = window.location.href.split("?");//取得Get参数
+            var aGET = new Array();
+            if(aQuery.length > 1)
+            {
+                var aBuf = aQuery[1].split("&");
+                for(var i=0, iLoop = aBuf.length; i<iLoop; i++)
+                {
+                    var aTmp = aBuf[i].split("=");//分离key与Value
+                    aGET[aTmp[0]] = aTmp[1];
+                }
+            }
+            return aGET;
+        },
+    });
+})(jQuery);
+ //js部分
+var GET = $.urlGet()
+ function countTime(value) {
+ //获取当前时间
+ var date = new Date();
+ var now = date.getTime();
+ 
+ //设置截止时间
+ //在pc端浏览器可以这样写
+ var endDate = new Date(decodeURI(GET['id']));
+ //移动端必须这样写，因为ios不支持日期中间是-链接，会报错
+ //var endDate = new Date("2030/7/22 00:00:00");
+ var end = endDate.getTime();
+ //时间差
+ var differTime = end - now;
+ //定义变量,h,m,s保存倒计时的时间
+ var h, m, s;
+ if (differTime >= 0) {
+ h = Math.floor(differTime / 1000 / 60 / 60);
+ m = Math.floor(differTime / 1000 / 60 % 60);
+ s = Math.floor(differTime / 1000 % 60);
+ h = h < 10 ? ("0" + h) : h;
+ m = m < 10 ? ("0" + m) : m;
+ s = s < 10 ? ("0" + s) : s;
+ var timeDom = "" + h + " : " + m + " : " + s + "";
+ $("#active_time").text(timeDom);
+ //递归调用函数所以是延时器不是定时器
+ setTimeout(function () {
+ countTime(value)
+ }, 1000);
+ } else {
+
+ var timeDom ="考 試 結 束";
+ $(".titler").text(timeDom);
+ $(".titler").animate({ fontSize: "140px",}, 1000 );
+ $(".titler").animate({marginTop:"100px"});
+ $("#active_time").text("");
+ }}
+ countTime()
+</script>
+
+
+</body></html>
