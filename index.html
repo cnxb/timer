@@ -31,14 +31,14 @@ font-family:Time Is;
 //      
         urlGet:function()
         {
-            var aQuery = window.location.href.split("?");//取得Get参数
+            var aQuery = window.location.href.split("?");
             var aGET = new Array();
             if(aQuery.length > 1)
             {
                 var aBuf = aQuery[1].split("&");
                 for(var i=0, iLoop = aBuf.length; i<iLoop; i++)
                 {
-                    var aTmp = aBuf[i].split("=");//分离key与Value
+                    var aTmp = aBuf[i].split("=");
                     aGET[aTmp[0]] = aTmp[1];
                 }
             }
@@ -46,22 +46,19 @@ font-family:Time Is;
         },
     });
 })(jQuery);
- //js部分
+
 var GET = $.urlGet()
  function countTime(value) {
- //获取当前时间
+
  var date = new Date();
  var now = date.getTime();
  
- //设置截止时间
- //在pc端浏览器可以这样写
+
  var endDate = new Date(decodeURI(GET['id']));
- //移动端必须这样写，因为ios不支持日期中间是-链接，会报错
- //var endDate = new Date("2030/7/22 00:00:00");
+ //e.g. 2030-7-22 00:00:00
  var end = endDate.getTime();
- //时间差
  var differTime = end - now;
- //定义变量,h,m,s保存倒计时的时间
+ 
  var h, m, s;
  if (differTime >= 0) {
  h = Math.floor(differTime / 1000 / 60 / 60);
@@ -72,7 +69,6 @@ var GET = $.urlGet()
  s = s < 10 ? ("0" + s) : s;
  var timeDom = "" + h + " : " + m + " : " + s + "";
  $("#active_time").text(timeDom);
- //递归调用函数所以是延时器不是定时器
  setTimeout(function () {
  countTime(value)
  }, 1000);
